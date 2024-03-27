@@ -1,36 +1,28 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] input = br.readLine().split(" ");
         int[] nums = new int[3];
-        int result = 0;
-        HashMap<Integer, Integer> map = new HashMap<>();
 
         for (int i = 0; i < 3; i++) {
-            nums[i] = scanner.nextInt();
-            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+            nums[i] = Integer.parseInt(input[i]);
         }
 
-        int max = -1;
-        int sameNum = 0;
-        for (Integer num : map.keySet()) {
-            if (map.get(num) > max) {
-                max = Math.max(max, map.get(num));
-                sameNum = num;
-            }
-        }
+        Arrays.sort(nums);
+        int result;
 
-        if (max == 3) {
-            result = 10000 + sameNum * 1000;
-        } else if (max == 2) {
-            result = 1000 + sameNum * 100;
+        if (nums[0] == nums[2]) {
+            result = 10000 + nums[0] * 1000;
+        } else if (nums[0] == nums[1] || nums[1] == nums[2]) {
+            result = 1000 + nums[1] * 100;
         } else {
-            result = Arrays.stream(nums).max().getAsInt() * 100;
+            result = nums[2] * 100;
         }
-
         System.out.println(result);
     }
 }
