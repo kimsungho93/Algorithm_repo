@@ -24,5 +24,6 @@ public class Main {
             result = nums[2] * 100;
         }
         System.out.println(result);
+        br.close();
     }
 }
