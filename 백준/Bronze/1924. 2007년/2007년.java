@@ -1,10 +1,13 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int x = scanner.nextInt(); 
-        int y = scanner.nextInt(); 
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] inputs = br.readLine().split(" ");
+        int x = Integer.parseInt(inputs[0]);
+        int y = Integer.parseInt(inputs[1]);
 
         int[] daysOfMonth = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         String[] days = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
