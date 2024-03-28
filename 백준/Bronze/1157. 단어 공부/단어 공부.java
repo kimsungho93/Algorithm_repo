@@ -6,27 +6,30 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        HashMap<String, Integer> map = new HashMap<>();
+        String word = br.readLine().toUpperCase();
+        HashMap<Character, Integer> map = new HashMap<>();
 
-        String word = br.readLine();
-        for (String key : word.split("")) {
-            key = key.toUpperCase();
+        for (int i = 0; i < word.length(); i++) {
+            char key = word.charAt(i);
+            if (key >= 97 && key <= 122)
+                key = (char) (key - 32);
             map.put(key, map.getOrDefault(key, 0) + 1);
         }
 
         int max = 0;
-        String maxKey = "";
-        for (String key : map.keySet()) {
-            if (map.get(key) > max) {
-                max = map.get(key);
+        char maxKey = '?';
+        for (char key : map.keySet()) {
+            int keyCount = map.get(key);
+            if (keyCount > max) {
+                max = keyCount;
                 maxKey = key;
-            } else if (map.get(key) == max) {
-                maxKey = "?";
+            } else if (keyCount == max) {
+                maxKey = '?';
             }
         }
-        bw.write(maxKey);
+        bw.write(String.valueOf(maxKey));
         bw.flush();
-        bw.close();
         br.close();
+        bw.close();
     }
 }
