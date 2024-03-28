@@ -1,29 +1,34 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.StringTokenizer;
 
 public class Main {
-	static StringBuilder sb = new StringBuilder();
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private void solution() throws Exception {
+        int n = Integer.parseInt(br.readLine());
+        int[] cnt = new int[4];
+        while (n-->0) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            String name = st.nextToken();
+            int num = Integer.parseInt(st.nextToken());
+            int nameToIdx = 0;
+            switch (name) {
+                case "STRAWBERRY": nameToIdx = 0; break;
+                case "BANANA": nameToIdx = 1; break;
+                case "LIME": nameToIdx = 2; break;
+                case "PLUM": nameToIdx = 3; break;
+            }
+            cnt[nameToIdx]+=num;
+        }
+        for (int i = 0; i < 4; i++)
+            if (cnt[i] == 5) {
+                System.out.println("YES");
+                return;
+            }
+        System.out.println("NO");
+    }
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
-		HashMap<String, Integer> map = new HashMap<>();
-		for(int i=0; i<n; i++) {
-			String[] split = br.readLine().split(" ");
-			if(map.containsKey(split[0])) {
-				map.put(split[0], map.get(split[0])+Integer.parseInt(split[1]));
-			}
-			else {
-				map.put(split[0], Integer.parseInt(split[1]));
-			}
-		}
-		if(map.containsValue(5)) {
-			System.out.println("YES");
-		}
-		else {
-			System.out.println("NO");
-		}
-	}
+    public static void main(String[] args) throws Exception {
+        new Main().solution();
+    }
 }
