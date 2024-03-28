@@ -1,29 +1,68 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.IOException;
-import java.util.HashSet;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
         String S = br.readLine();
-        HashSet<String> set = new HashSet<>();
 
+        Trie trie = new Trie();
         for (int i = 0; i < S.length(); i++) {
-            for (int j = i + 1; j <= S.length(); j++) {
-                set.add(S.substring(i, j));
-            }
+            trie.insert(S.substring(i));
         }
 
-        bw.write(String.valueOf(set.size()));
-        bw.newLine();
+        System.out.println(trie.countDistinctSubstrings());
+    }
+}
 
-        bw.flush();
-        br.close();
-        bw.close();
+class TrieNode {
+    TrieNode[] children = new TrieNode[26];
+    boolean isEndOfWord = false;
+
+    public boolean containsKey(char ch) {
+        return children[ch - 'a'] != null;
+    }
+
+    public TrieNode get(char ch) {
+        return children[ch - 'a'];
+    }
+
+    public void put(char ch, TrieNode node) {
+        children[ch - 'a'] = node;
+    }
+}
+
+class Trie {
+    private TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    public void insert(String word) {
+        TrieNode node = root;
+        for (int i = 0; i < word.length(); i++) {
+            char currentChar = word.charAt(i);
+            if (!node.containsKey(currentChar)) {
+                node.put(currentChar, new TrieNode());
+            }
+            node = node.get(currentChar);
+        }
+        node.isEndOfWord = true;
+    }
+
+    public int countDistinctSubstrings() {
+        return countDistinctSubstrings(root) - 1; 
+    }
+
+    private int countDistinctSubstrings(TrieNode node) {
+        int count = 1; 
+        for (char c = 'a'; c <= 'z'; c++) {
+            if (node.containsKey(c)) {
+                count += countDistinctSubstrings(node.get(c));
+            }
+        }
+        return count;
     }
 }
