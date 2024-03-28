@@ -8,15 +8,20 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        
+
         String input = br.readLine().trim();
+        int wordCount = 0;
         
-        if (input.isEmpty()) {
-            bw.write("0");
-        } else {
-            bw.write(String.valueOf(input.split(" ").length));
+        if (!input.isEmpty()) {
+            wordCount = 1; 
+            for (int i = 0; i < input.length(); i++) {
+                if (input.charAt(i) == ' ') {
+                    wordCount++;
+                }
+            }
         }
         
+        bw.write(String.valueOf(wordCount));
         bw.flush();
         br.close();
         bw.close();
