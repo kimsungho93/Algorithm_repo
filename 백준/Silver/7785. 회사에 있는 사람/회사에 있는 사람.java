@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.IOException;
+import java.util.StringTokenizer;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.ArrayList;
@@ -14,25 +15,25 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int n = Integer.parseInt(br.readLine());
-        Set<String> employees = new HashSet<>();
+        Set<String> set = new HashSet<>();
 
         for (int i = 0; i < n; i++) {
-            String[] record = br.readLine().split(" ");
-            String name = record[0];
-            String status = record[1];
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            String name = st.nextToken();
+            String status = st.nextToken();
 
             if ("enter".equals(status)) {
-                employees.add(name);
+                set.add(name);
             } else {
-                employees.remove(name);
+                set.remove(name);
             }
         }
 
-        ArrayList<String> sortedEmployees = new ArrayList<>(employees);
-        Collections.sort(sortedEmployees, Collections.reverseOrder());
+        ArrayList<String> result = new ArrayList<>(set);
+        Collections.sort(result, Collections.reverseOrder());
 
-        for (String employee : sortedEmployees) {
-            bw.write(employee);
+        for (String name : result) {
+            bw.write(name);
             bw.newLine();
         }
 
