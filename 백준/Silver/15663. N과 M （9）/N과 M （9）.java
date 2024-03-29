@@ -16,7 +16,7 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken()); 
 
         arr = new int[N];
         numbers = new int[M];
@@ -27,13 +27,13 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        Arrays.sort(arr);
-        dfs(0);
-        System.out.println(sb);
+        Arrays.sort(arr); 
+        dfs(0); 
+        System.out.print(sb);
     }
 
-    private static void dfs(int depth) {
-        if (depth == M) {
+    static void dfs(int depth) {
+        if (depth == M) { 
             for (int num : numbers) {
                 sb.append(num).append(' ');
             }
@@ -41,14 +41,14 @@ public class Main {
             return;
         }
 
-        int beforeValue = -1;
+        int beforeValue = -1; 
         for (int i = 0; i < N; i++) {
-            if (!visited[i] && (beforeValue != arr[i])) {
-                visited[i] = true;
-                beforeValue = arr[i];
-                numbers[depth] = arr[i];
-                dfs(depth + 1);
-                visited[i] = false;
+            if (!visited[i] && (beforeValue != arr[i])) { 
+                visited[i] = true; 
+                beforeValue = arr[i]; 
+                numbers[depth] = arr[i]; 
+                dfs(depth + 1); 
+                visited[i] = false; 
             }
         }
     }
