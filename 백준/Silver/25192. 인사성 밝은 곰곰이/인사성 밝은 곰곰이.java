@@ -8,18 +8,17 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        HashSet<String> set = new HashSet<>(); 
+        HashSet<String> set = new HashSet<>();
         int count = 0;
 
         for (int i = 0; i < N; i++) {
             String record = br.readLine();
             if ("ENTER".equals(record)) {
-                set.clear(); 
+                set.clear();
             } else {
-                if (!set.contains(record)) { 
+                if (set.add(record)) {
                     count++;
                 }
-                set.add(record);
             }
         }
 
