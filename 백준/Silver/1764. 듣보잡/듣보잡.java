@@ -12,22 +12,24 @@ public class Main {
         int N = Integer.parseInt(input[0]);
         int M = Integer.parseInt(input[1]);
 
-        HashSet<String> notHeard = new HashSet<>();
+        HashSet<String> set = new HashSet<>();
         for (int i = 0; i < N; i++) {
-            notHeard.add(br.readLine());
+            set.add(br.readLine());
         }
 
         TreeSet<String> result = new TreeSet<>();
         for (int i = 0; i < M; i++) {
             String name = br.readLine();
-            if (notHeard.contains(name)) {
+            if (set.contains(name)) {
                 result.add(name);
             }
         }
 
         System.out.println(result.size());
+        StringBuilder sb = new StringBuilder();
         for (String name : result) {
-            System.out.println(name);
+            sb.append(name).append("\n");
         }
+        System.out.println(sb.toString());
     }
 }
