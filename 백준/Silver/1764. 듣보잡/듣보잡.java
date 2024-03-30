@@ -30,6 +30,6 @@ public class Main {
         for (String name : result) {
             sb.append(name).append("\n");
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 }
