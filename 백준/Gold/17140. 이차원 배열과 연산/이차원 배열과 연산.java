@@ -4,21 +4,21 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-    static int R, C, K;
+    static int r, c, k;
     static int[][] A = new int[101][101];
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        String[] inputs = br.readLine().split(" ");
 
-        R = Integer.parseInt(st.nextToken());
-        C = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
+        r = Integer.parseInt(inputs[0]);
+        c = Integer.parseInt(inputs[1]);
+        k = Integer.parseInt(inputs[2]);
 
         for (int i = 1; i <= 3; i++) {
-            st = new StringTokenizer(br.readLine());
+            inputs = br.readLine().split(" ");
             for (int j = 1; j <= 3; j++) {
-                A[i][j] = Integer.parseInt(st.nextToken());
+                A[i][j] = Integer.parseInt(inputs[j-1]);
             }
         }
 
@@ -29,7 +29,7 @@ public class Main {
         int y = 3, x = 3;
 
         for (int t = 0; t <= 100; t++) {
-            if (A[R][C] == K) {
+            if (A[r][c] == k) {
                 return t;
             }
             if (y >= x) {
