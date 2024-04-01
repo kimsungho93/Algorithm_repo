@@ -22,19 +22,19 @@ public class Main {
                 arr[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-
+        
         int layers = Math.min(N, M) / 2;
         for (int layer = 0; layer < layers; layer++) {
-            int layerR = R % ((N + M - 2 - 4 * layer) * 2);
+            int layerR = R % ((N + M - 2 - 4 * layer) * 2); 
             for (int r = 0; r < layerR; r++) {
-                rotate(layer);
+                rotateLayer(layer);
             }
         }
 
-        print();
+        printArray();
     }
 
-    private static void rotate(int layer) {
+    private static void rotateLayer(int layer) {
         int temp = arr[layer][layer];
         for (int i = layer; i < M - 1 - layer; i++) {
             arr[layer][i] = arr[layer][i + 1];
@@ -51,7 +51,7 @@ public class Main {
         arr[layer + 1][layer] = temp;
     }
 
-    private static void print() {
+    private static void printArray() {
         StringBuilder sb = new StringBuilder();
         for (int[] row : arr) {
             for (int val : row) {
@@ -59,6 +59,6 @@ public class Main {
             }
             sb.append("\n");
         }
-        System.out.print(sb);
+        System.out.print(sb.toString());
     }
 }
