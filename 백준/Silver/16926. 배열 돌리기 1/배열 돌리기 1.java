@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 public class Main {
     static int[][] arr;
@@ -9,32 +8,31 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        String[] input = br.readLine().split(" ");
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        R = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(input[0]);
+        M = Integer.parseInt(input[1]);
+        R = Integer.parseInt(input[2]);
 
         arr = new int[N][M];
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
+            String[] row = br.readLine().split(" ");
             for (int j = 0; j < M; j++) {
-                arr[i][j] = Integer.parseInt(st.nextToken());
+                arr[i][j] = Integer.parseInt(row[j]);
             }
         }
-        
+
         int layers = Math.min(N, M) / 2;
         for (int layer = 0; layer < layers; layer++) {
-            int layerR = R % ((N + M - 2 - 4 * layer) * 2); 
+            int layerR = R % ((N + M - 2 - 4 * layer) * 2);
             for (int r = 0; r < layerR; r++) {
-                rotateLayer(layer);
+                rotate(layer);
             }
         }
-
-        printArray();
+        print();
     }
 
-    private static void rotateLayer(int layer) {
+    private static void rotate(int layer) {
         int temp = arr[layer][layer];
         for (int i = layer; i < M - 1 - layer; i++) {
             arr[layer][i] = arr[layer][i + 1];
@@ -51,7 +49,7 @@ public class Main {
         arr[layer + 1][layer] = temp;
     }
 
-    private static void printArray() {
+    private static void print() {
         StringBuilder sb = new StringBuilder();
         for (int[] row : arr) {
             for (int val : row) {
@@ -59,6 +57,6 @@ public class Main {
             }
             sb.append("\n");
         }
-        System.out.print(sb.toString());
+        System.out.print(sb);
     }
 }
