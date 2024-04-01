@@ -5,58 +5,46 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        char[][] whiteFirstPattern = {
-                {'W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'},
-                {'B', 'W', 'B', 'W', 'B', 'W', 'B', 'W'},
-                {'W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'},
-                {'B', 'W', 'B', 'W', 'B', 'W', 'B', 'W'},
-                {'W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'},
-                {'B', 'W', 'B', 'W', 'B', 'W', 'B', 'W'},
-                {'W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'},
-                {'B', 'W', 'B', 'W', 'B', 'W', 'B', 'W'}
-        };
-
-        char[][] blackFirstPattern = {
-                {'B', 'W', 'B', 'W', 'B', 'W', 'B', 'W'},
-                {'W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'},
-                {'B', 'W', 'B', 'W', 'B', 'W', 'B', 'W'},
-                {'W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'},
-                {'B', 'W', 'B', 'W', 'B', 'W', 'B', 'W'},
-                {'W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'},
-                {'B', 'W', 'B', 'W', 'B', 'W', 'B', 'W'},
-                {'W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'}
-        };
-
-        String[] nm = br.readLine().split(" ");
-        int N = Integer.parseInt(nm[0]);
-        int M = Integer.parseInt(nm[1]);
+        String[] firstLine = br.readLine().split(" ");
+        int N = Integer.parseInt(firstLine[0]);
+        int M = Integer.parseInt(firstLine[1]);
 
         char[][] board = new char[N][M];
         for (int i = 0; i < N; i++) {
-            board[i] = br.readLine().toCharArray();
-        }
-
-        int min = Integer.MAX_VALUE;
-        for (int i = 0; i <= N - 8; i++) {
-            for (int j = 0; j <= M - 8; j++) {
-                min = Math.min(min, getMin(board, whiteFirstPattern, i, j));
-                min = Math.min(min, getMin(board, blackFirstPattern, i, j));
+            String line = br.readLine();
+            for (int j = 0; j < M; j++) {
+                board[i][j] = line.charAt(j);
             }
         }
 
-        System.out.println(min);
+        int minRecolor = Integer.MAX_VALUE;
+        for (int i = 0; i <= N - 8; i++) {
+            for (int j = 0; j <= M - 8; j++) {
+                minRecolor = Math.min(minRecolor, findMinRecolor(board, i, j));
+            }
+        }
+
+        System.out.println(minRecolor);
     }
 
-    public static int getMin(char[][] board, char[][] pattern, int x, int y) {
-        int count = 0;
-        for (int i = x; i < x + 8; i++) {
-            for (int j = y; j < y + 8; j++) {
-                if (board[i][j] != pattern[i - x][j - y]) {
-                    count++;
+    private static int findMinRecolor(char[][] board, int x, int y) {
+        int endX = x + 8;
+        int endY = y + 8;
+        int count1 = 0;
+        int count2 = 0;
+
+        for (int i = x; i < endX; i++) {
+            for (int j = y; j < endY; j++) {
+                if ((i + j) % 2 == 0) {
+                    if (board[i][j] != 'W') count1++;
+                    else count2++;
+                } else {
+                    if (board[i][j] != 'B') count1++;
+                    else count2++;
                 }
             }
         }
-        return count;
+
+        return Math.min(count1, count2);
     }
 }
