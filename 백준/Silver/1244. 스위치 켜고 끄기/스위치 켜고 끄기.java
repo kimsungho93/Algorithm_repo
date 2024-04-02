@@ -28,6 +28,7 @@ public class Main {
                 arr[num] = !arr[num];
                 int left = num - 1;
                 int right = num + 1;
+                
                 while (left >= 1 && right <= switchCount && arr[left] == arr[right]) {
                     arr[left] = !arr[left];
                     arr[right] = !arr[right];
@@ -46,7 +47,7 @@ public class Main {
             }
             if (i % 20 == 0) {
                 sb.append("\n");
-            } 
+            }
         }
         System.out.println(sb);
     }
