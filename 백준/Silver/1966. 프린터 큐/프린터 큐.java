@@ -9,37 +9,36 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine()); // 테스트 케이스 수
+        int T = Integer.parseInt(br.readLine());
 
         for (int t = 0; t < T; t++) {
             String[] line = br.readLine().split(" ");
-            int N = Integer.parseInt(line[0]); // 문서의 수
-            int M = Integer.parseInt(line[1]); // 관심 있는 문서의 위치
+            int N = Integer.parseInt(line[0]);
+            int M = Integer.parseInt(line[1]);
             String[] priorities = br.readLine().split(" ");
 
-            Queue<Document> queue = new LinkedList<>(); // FIFO 큐
-            PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(Collections.reverseOrder()); // 중요도를 내림차순으로 정렬하는 우선순위 큐
+            Queue<Document> queue = new LinkedList<>();
+            PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
 
             for (int i = 0; i < N; i++) {
                 int priority = Integer.parseInt(priorities[i]);
                 queue.add(new Document(i, priority));
-                priorityQueue.add(priority);
+                pq.add(priority);
             }
 
-            int printCount = 0;
+            int count = 0;
             while (!queue.isEmpty()) {
                 Document current = queue.poll();
 
-                // 현재 문서가 가장 중요도가 높다면 인쇄
-                if (current.priority == priorityQueue.peek()) {
-                    printCount++;
-                    priorityQueue.poll(); // 인쇄되었으므로 우선순위 큐에서도 제거
-                    if (current.index == M) { // 관심 있는 문서가 인쇄되었다면
-                        System.out.println(printCount);
+                if (current.priority == pq.peek()) {
+                    count++;
+                    pq.poll();
+                    if (current.index == M) {
+                        System.out.println(count);
                         break;
                     }
                 } else {
-                    queue.add(current); // 중요도가 더 높은 문서가 있다면 큐의 끝으로 다시 추가
+                    queue.add(current);
                 }
             }
         }
