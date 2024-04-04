@@ -12,7 +12,6 @@ public class Main {
 
         for (int t = 0; t < T; t++) {
             int k = Integer.parseInt(br.readLine());
-            // 요소의 유효성(삽입된 횟수 - 삭제된 횟수)을 추적
             HashMap<Integer, Integer> map = new HashMap<>();
             PriorityQueue<Integer> minHeap = new PriorityQueue<>();
             PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b.compareTo(a));
@@ -28,23 +27,20 @@ public class Main {
                     map.put(value, map.getOrDefault(value, 0) + 1);
                 } else if (op.equals("D")) {
                     if (value == 1) {
-                        // 최댓값 삭제 처리
                         remove(maxHeap, map);
                     } else {
-                        // 최솟값 삭제 처리
                         remove(minHeap, map);
                     }
                 }
             }
 
-            // 최종 결과 확인 및 출력
             printResult(minHeap, maxHeap, map);
         }
     }
 
     private static void remove(PriorityQueue<Integer> heap, HashMap<Integer, Integer> map) {
         while (!heap.isEmpty() && map.getOrDefault(heap.peek(), 0) == 0) {
-            heap.poll(); // 이미 삭제된 요소는 건너뛴다
+            heap.poll(); 
         }
         if (!heap.isEmpty()) {
             int top = heap.poll();
