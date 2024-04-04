@@ -15,16 +15,16 @@ public class Main {
             for (int i = 0; i < k; i++) {
                 String[] input = br.readLine().split(" ");
                 char operation = input[0].charAt(0);
-                int number = Integer.parseInt(input[1]);
+                int num = Integer.parseInt(input[1]);
 
                 if (operation == 'I') {
-                    map.put(number, map.getOrDefault(number, 0) + 1);
+                    map.put(num, map.getOrDefault(num, 0) + 1);
                 } else if (operation == 'D') {
                     if (map.isEmpty()) continue;
 
-                    int key = (number == 1) ? map.lastKey() : map.firstKey();
+                    int key = (num == 1) ? map.lastKey() : map.firstKey();
                     int count = map.get(key) - 1;
-                    
+
                     if (count > 0) {
                         map.put(key, count);
                     } else {
@@ -36,9 +36,7 @@ public class Main {
             if (map.isEmpty()) {
                 System.out.println("EMPTY");
             } else {
-                int min = map.firstKey();
-                int max = map.lastKey();
-                System.out.println(max + " " + min);
+                System.out.println(map.lastKey() + " " + map.firstKey());
             }
         }
     }
