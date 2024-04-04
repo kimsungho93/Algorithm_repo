@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.TreeSet;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -16,25 +15,26 @@ public class Main {
 
         Arrays.sort(num);
 
-        TreeSet<Integer> sumSet = new TreeSet<>();
+        int[] sum = new int[N * (N + 1) / 2];
+        int count = 0;
         for (int i = 0; i < N; i++) {
             for (int j = i; j < N; j++) {
-                sumSet.add(num[i] + num[j]);
+                sum[count++] = num[i] + num[j];
             }
         }
+
+        Arrays.sort(sum, 0, count - 1);
 
         int answer = 0;
         for (int i = N - 1; i >= 0; i--) {
-            for (int j = i - 1; j >= 0; j--) {
+            for (int j = i; j >= 0; j--) {
                 int target = num[i] - num[j];
-                if (sumSet.contains(target)) {
-                    answer = num[i];
-                    break; 
+                if (Arrays.binarySearch(sum, 0, count - 1, target) >= 0) {
+                    answer = Math.max(answer, num[i]);
+                    break;
                 }
             }
-            if (answer > 0) break; 
         }
-
 
         System.out.println(answer);
     }
