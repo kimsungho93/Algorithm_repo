@@ -19,10 +19,9 @@ public class Main {
         Arrays.stream(cards).mapToLong(Long::parseLong).forEach(pq::add);
 
         LongStream.range(0, m).forEach(i -> {
-            long first = pq.poll();
-            long second = pq.poll();
-            pq.add(first + second);
-            pq.add(first + second);
+            long sum = pq.poll() + pq.poll();
+            pq.add(sum);
+            pq.add(sum);
         });
 
         long sum = pq.stream().mapToLong(Long::longValue).sum();
