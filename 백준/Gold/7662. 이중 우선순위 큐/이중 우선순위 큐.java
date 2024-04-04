@@ -7,7 +7,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T = Integer.parseInt(br.readLine());
-
+        StringBuilder sb = new StringBuilder();
+        
         while (T-- > 0) {
             int k = Integer.parseInt(br.readLine());
             TreeMap<Integer, Integer> map = new TreeMap<>();
@@ -34,10 +35,11 @@ public class Main {
             }
 
             if (map.isEmpty()) {
-                System.out.println("EMPTY");
+                sb.append("EMPTY\n");
             } else {
-                System.out.println(map.lastKey() + " " + map.firstKey());
+                sb.append(map.lastKey()).append(" ").append(map.firstKey()).append("\n");
             }
         }
+        System.out.println(sb);
     }
 }
