@@ -15,7 +15,10 @@ public class Main {
         int[] trees = new int[N];
 
         String[] height = br.readLine().split(" ");
-        IntStream.range(0, N).forEach(i -> trees[i] = Integer.parseInt(height[i]));
+        for (int i = 0; i < N; i++) {
+            trees[i] = Integer.parseInt(height[i]);
+        }
+        
         Arrays.sort(trees);
 
         int left = 0;
