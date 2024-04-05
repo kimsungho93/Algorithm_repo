@@ -18,7 +18,7 @@ public class Main {
         Arrays.sort(houses);
 
         // 이진 탐색을 위한 초기 설정
-        long left = 1; // 가능한 최소 거리
+        long left = 0; // 가능한 최소 거리
         long right = houses[N - 1] - houses[0]; // 가능한 최대 거리
         long result = 0;
 
