@@ -1,67 +1,59 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[] order;
-    static int count = 1;
+    static ArrayList<Integer>[] adjList; // 인접 리스트
+    static boolean[] visited; // 방문 여부 확인 배열
+    static int[] order; // 각 정점의 방문 순서
+    static int count = 1; // 방문 순서 카운트
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int vertexSize = Integer.parseInt(st.nextToken());
-        int edgeSize = Integer.parseInt(st.nextToken());
-        int startVertex = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int R = Integer.parseInt(st.nextToken());
 
-        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-        for (int i = 0; i <= vertexSize; i++) {
-            graph.add(new ArrayList<>());
+        adjList = new ArrayList[N + 1];
+        visited = new boolean[N + 1];
+        order = new int[N + 1];
+        
+        for (int i = 1; i <= N; i++) {
+            adjList[i] = new ArrayList<>();
         }
 
-        for (int i = 0; i < edgeSize; i++) {
+        for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int vertex1 = Integer.parseInt(st.nextToken());
-            int vertex2 = Integer.parseInt(st.nextToken());
-            graph.get(vertex1).add(vertex2);
-            graph.get(vertex2).add(vertex1);
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
+            adjList[u].add(v);
+            adjList[v].add(u);
         }
 
-        for (ArrayList<Integer> adjacent : graph) {
-            Collections.sort(adjacent);
+        // 인접 리스트 오름차순 정렬
+        for (int i = 1; i <= N; i++) {
+            Collections.sort(adjList[i]);
         }
 
-        boolean[] visited = new boolean[vertexSize + 1];
-        order = new int[vertexSize + 1];
-        dfs(graph, visited, startVertex);
+        dfs(R);
 
-        for (int i = 1; i <= vertexSize; i++) {
-            System.out.println(order[i]);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= N; i++) {
+            sb.append(order[i]).append('\n');
         }
+        System.out.print(sb);
     }
 
-    private static void dfs(ArrayList<ArrayList<Integer>> graph, boolean[] visited, int startVertex) {
-        Stack<Integer> stack = new Stack<>();
-        stack.push(startVertex);
-
-        while (!stack.isEmpty()) {
-            int currentVertex = stack.pop();
-
-            if (!visited[currentVertex]) {
-                visited[currentVertex] = true;
-                order[currentVertex] = count++;
-
-                ArrayList<Integer> adjacent = graph.get(currentVertex);
-                for (int i = adjacent.size() - 1; i >= 0; i--) {
-                    int vertex = adjacent.get(i);
-                    if (!visited[vertex]) {
-                        stack.push(vertex);
-                    }
-                }
+    public static void dfs(int node) {
+        visited[node] = true;
+        order[node] = count++;
+        for (int nextNode : adjList[node]) {
+            if (!visited[nextNode]) {
+                dfs(nextNode);
             }
         }
     }
