@@ -1,36 +1,53 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
-import java.util.TreeMap;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
         String line;
-        while ((line = br.readLine()) != null) {
-            int x = Integer.parseInt(line) * 10000000; // 센티미터를 나노미터로 변환
-            int n = Integer.parseInt(br.readLine());
-            TreeMap<Integer, Integer> map = new TreeMap<>();
+        
+        while ((line = br.readLine()) != null && !line.isEmpty()) {
+            int x = Integer.parseInt(line) * 10000000; // 구멍의 너비(cm -> nm 변환)
+            int n = Integer.parseInt(br.readLine()); // 레고 조각의 수
+            int[] pieces = new int[n];
+            
             for (int i = 0; i < n; i++) {
-                int l = Integer.parseInt(br.readLine());
-                map.put(l, map.getOrDefault(l, 0) + 1);
+                pieces[i] = Integer.parseInt(br.readLine());
             }
-            boolean found = map.entrySet().stream().anyMatch(entry -> {
-                int l1 = entry.getKey();
-                int l2 = x - l1;
-                if (map.containsKey(l2)) {
-                    if (l1 == l2 && entry.getValue() < 2) {
-                        return false;
-                    }
-                    System.out.println("yes " + Math.min(l1, l2) + " " + Math.max(l1, l2));
-                    return true;
+            
+            Arrays.sort(pieces); // 레고 조각 정렬
+            
+            boolean found = false;
+            for (int i = 0; i < n; i++) {
+                int target = x - pieces[i];
+                if (binarySearch(pieces, target, i + 1, n - 1)) { // 이분 탐색
+                    System.out.println("yes " + pieces[i] + " " + target);
+                    found = true;
+                    break;
                 }
-                return false;
-            });
+            }
+            
             if (!found) {
                 System.out.println("danger");
             }
         }
+    }
+    
+    // 이분 탐색 메소드
+    private static boolean binarySearch(int[] pieces, int target, int start, int end) {
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            if (pieces[mid] == target) {
+                return true;
+            } else if (pieces[mid] < target) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return false;
     }
 }
