@@ -11,40 +11,41 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int N = Integer.parseInt(st.nextToken());
-        int Hcenti = Integer.parseInt(st.nextToken());
+        int H = Integer.parseInt(st.nextToken());
         int T = Integer.parseInt(st.nextToken());
 
-        PriorityQueue<Integer> giants = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         for (int i = 0; i < N; i++) {
-            giants.add(Integer.parseInt(br.readLine()));
+            pq.add(Integer.parseInt(br.readLine()));
         }
 
         int count = 0;
-        while (!giants.isEmpty() && T > 0) {
-            int top = giants.poll();
-            
-            // 센티보다 키가 큰 거인만 처리
-            if (top >= Hcenti) {
-                if (top == 1) { // 키가 1인 경우 더 이상 줄어들지 않음
-                    giants.add(top);
+        while (!pq.isEmpty() && T > 0) {
+            int top = pq.poll();
+
+            if (top >= H) {
+                if (top == 1) {
+                    pq.add(top);
                     break;
                 }
-                top /= 2; // 마법의 뿅망치 사용
-                giants.add(top);
+                top /= 2;
+                pq.add(top);
                 T--;
                 count++;
-            } else { // 센티보다 작은 거인은 다시 추가할 필요 없음
-                giants.add(top);
+            } else {
+                pq.add(top);
                 break;
             }
         }
 
-        if (giants.stream().anyMatch(h -> h >= Hcenti)) {
-            System.out.println("NO");
-            System.out.println(giants.peek()); // 가장 큰 거인의 키 출력
+        StringBuilder sb = new StringBuilder();
+        if (!pq.isEmpty() && pq.peek() >= H) {
+            sb.append("NO\n");
+            sb.append(pq.peek()).append("\n");
         } else {
-            System.out.println("YES");
-            System.out.println(count); // 사용한 뿅망치 횟수 출력
+            sb.append("YES\n");
+            sb.append(count).append("\n");
         }
+        System.out.println(sb);
     }
 }
