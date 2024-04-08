@@ -1,18 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int R, C;
-    static int maxCount = 0;
+    static int R, C, maxCount = 0;
     static char[][] board;
     static boolean[][] visited;
+    static boolean[] alphabetVisited = new boolean[26];
     static int[] dx = {0, 0, 1, -1};
     static int[] dy = {1, -1, 0, 0};
-    static Set<Character> set = new HashSet<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,26 +27,25 @@ public class Main {
             }
         }
 
-        dfs(0, 0);
+        dfs(0, 0, 0);
         System.out.println(maxCount);
     }
 
-    private static void dfs(int x, int y) {
-        if (!isPossible(x, y) || visited[x][y] || set.contains(board[x][y])) {
+    private static void dfs(int x, int y, int count) {
+        if (!isPossible(x, y) || visited[x][y] || alphabetVisited[board[x][y] - 'A']) {
             return;
         }
 
         visited[x][y] = true;
-        set.add(board[x][y]);
-
-        maxCount = Math.max(maxCount, set.size()); 
+        alphabetVisited[board[x][y] - 'A'] = true;
+        maxCount = Math.max(maxCount, count + 1);
 
         for (int i = 0; i < 4; i++) {
-            dfs(x + dx[i], y + dy[i]);
+            dfs(x + dx[i], y + dy[i], count + 1);
         }
 
-        visited[x][y] = false; 
-        set.remove(board[x][y]); 
+        visited[x][y] = false;
+        alphabetVisited[board[x][y] - 'A'] = false; 
     }
 
     private static boolean isPossible(int x, int y) {
