@@ -4,39 +4,36 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[] row; 
-    static int N; 
+    static int N;
     static int count = 0;
+    static boolean[] visitedCol;
+    static boolean[] visitedDiag1;
+    static boolean[] visitedDiag2;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken()); 
-        row = new int[N];
-        nQueen(0); 
-        System.out.println(count); 
+        N = Integer.parseInt(st.nextToken());
+
+        visitedCol = new boolean[N];
+        visitedDiag1 = new boolean[2 * N - 1];
+        visitedDiag2 = new boolean[2 * N - 1];
+
+        nQueen(0);
+        System.out.println(count);
     }
 
-    private static void nQueen(int x) {
-        if (x == N) { 
-            count++; 
+    private static void nQueen(int row) {
+        if (row == N) {
+            count++;
             return;
         }
-
-        for (int i = 0; i < N; i++) {
-            row[x] = i; 
-            if (isPossible(x)) { 
-                nQueen(x + 1); 
+        for (int col = 0; col < N; col++) {
+            if (!visitedCol[col] && !visitedDiag1[row + col] && !visitedDiag2[row - col + N - 1]) {
+                visitedCol[col] = visitedDiag1[row + col] = visitedDiag2[row - col + N - 1] = true;
+                nQueen(row + 1);
+                visitedCol[col] = visitedDiag1[row + col] = visitedDiag2[row - col + N - 1] = false;
             }
         }
-    }
-
-    private static boolean isPossible(int x) {
-        for (int i = 0; i < x; i++) {
-            if (row[x] == row[i] || Math.abs(x - i) == Math.abs(row[x] - row[i])) {
-                return false;
-            }
-        }
-        return true; 
     }
 }
