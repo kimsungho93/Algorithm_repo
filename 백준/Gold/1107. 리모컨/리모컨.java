@@ -3,33 +3,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-    static int N;
-    static int M;
+    static int targetChannel;
+    static int brokenButtonCnt;
     static final int MAX = 999999;
     static boolean[] buttons = new boolean[10];
-    static int min;
+    static int result;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        N = Integer.parseInt(br.readLine());
-        M = Integer.parseInt(br.readLine());
+        targetChannel = Integer.parseInt(br.readLine());
+        brokenButtonCnt = Integer.parseInt(br.readLine());
 
-        if (M > 0) {
+        if (brokenButtonCnt > 0) {
             String[] numbers = br.readLine().split(" ");
             for (String num : numbers) {
                 buttons[Integer.parseInt(num)] = true;
             }
         }
 
-        min = Math.abs(N - 100);
+        result = Math.abs(targetChannel - 100);
         for (int i = 0; i <= MAX; i++) {
             String channel = String.valueOf(i);
             if (canPress(channel)) {
-                int count = Math.abs(N - i) + channel.length();
-                min = Math.min(min, count);
+                int count = Math.abs(targetChannel - i) + channel.length();
+                result = Math.min(result, count);
             }
         }
-        System.out.println(min);
+        System.out.println(result);
     }
 
     private static boolean canPress(String channel) {
