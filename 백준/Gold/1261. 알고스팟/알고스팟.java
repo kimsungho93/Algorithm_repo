@@ -23,7 +23,7 @@ public class Main {
             String[] line = br.readLine().split("");
             for (int j = 0; j < M; j++) {
                 maze[i][j] = line[j].charAt(0) - '0';
-                cost[i][j] = Integer.MAX_VALUE; 
+                cost[i][j] = Integer.MAX_VALUE;
             }
         }
 
@@ -36,13 +36,13 @@ public class Main {
         cost[startX][startY] = maze[startX][startY];
 
         while (!pq.isEmpty()) {
-            Node current = pq.poll();
-            int x = current.x;
-            int y = current.y;
-            int currentCost = current.cost;
+            Node cur = pq.poll();
+            int x = cur.x;
+            int y = cur.y;
+            int curCost = cur.cost;
 
             if (x == N - 1 && y == M - 1) {
-                return currentCost;
+                return curCost;
             }
 
             for (int i = 0; i < 4; i++) {
@@ -50,7 +50,7 @@ public class Main {
                 int ny = y + dy[i];
 
                 if (nx >= 0 && nx < N && ny >= 0 && ny < M) {
-                    int newCost = currentCost + maze[nx][ny];
+                    int newCost = curCost + maze[nx][ny];
                     if (newCost < cost[nx][ny]) {
                         cost[nx][ny] = newCost;
                         pq.offer(new Node(nx, ny, newCost));
