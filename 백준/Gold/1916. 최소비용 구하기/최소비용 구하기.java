@@ -1,75 +1,69 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-class Main {
+public class Main {
+    static int N;
+    static int M;
+    static List<ArrayList<Node>> graph = new ArrayList<>();
 
-
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+        N = Integer.parseInt(br.readLine());
+        M = Integer.parseInt(br.readLine());
 
-        int N = Integer.parseInt(br.readLine());
-        int M = Integer.parseInt(br.readLine());
-
-        List<List<Node>> graph = new ArrayList<>();
         for (int i = 0; i <= N; i++) {
             graph.add(new ArrayList<>());
         }
 
         for (int i = 0; i < M; i++) {
-            st = new StringTokenizer(br.readLine());
+            StringTokenizer st = new StringTokenizer(br.readLine());
             int start = Integer.parseInt(st.nextToken());
             int end = Integer.parseInt(st.nextToken());
             int cost = Integer.parseInt(st.nextToken());
             graph.get(start).add(new Node(end, cost));
         }
 
-        st = new StringTokenizer(br.readLine());
-        int startCity = Integer.parseInt(st.nextToken());
-        int endCity = Integer.parseInt(st.nextToken());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int start = Integer.parseInt(st.nextToken());
+        int end = Integer.parseInt(st.nextToken());
 
         int[] dist = new int[N + 1];
         Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[startCity] = 0;
+        dist[start] = 0;
 
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.offer(new Node(startCity, 0));
+        pq.offer(new Node(start, 0));
 
         while (!pq.isEmpty()) {
-            Node current = pq.poll();
+            Node cur = pq.poll();
 
-            if (current.city == endCity) {
-                break;
-            }
+            if (cur.city == end) break;
+            if (cur.cost > dist[cur.city]) continue;
 
-            if (current.cost > dist[current.city]) {
-                continue;
-            }
-
-            for (Node next : graph.get(current.city)) {
-                if (dist[next.city] > dist[current.city] + next.cost) {
-                    dist[next.city] = dist[current.city] + next.cost;
+            for (Node next : graph.get(cur.city)) {
+                if (dist[next.city] > dist[cur.city] + next.cost) {
+                    dist[next.city] = dist[cur.city] + next.cost;
                     pq.offer(new Node(next.city, dist[next.city]));
                 }
             }
         }
-
-        System.out.println(dist[endCity]);
+        System.out.println(dist[end]);
     }
 }
 
-     class Node implements Comparable<Node> {
-        int city;
-        int cost;
+class Node implements Comparable<Node> {
+    int city;
+    int cost;
 
-        public Node(int city, int cost) {
-            this.city = city;
-            this.cost = cost;
-        }
-
-        @Override
-        public int compareTo(Node other) {
-            return Integer.compare(this.cost, other.cost);
-        }
+    public Node(int city, int cost) {
+        this.city = city;
+        this.cost = cost;
     }
+
+    @Override
+    public int compareTo(Node o) {
+        return Integer.compare(this.cost, o.cost);
+    }
+}
