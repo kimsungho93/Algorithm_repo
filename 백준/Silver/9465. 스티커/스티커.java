@@ -9,7 +9,7 @@ public class Main {
 
         StringBuilder sb = new StringBuilder();
         for (int t = 0; t < T; t++) {
-            int n = Integer.parseInt(br.readLine().trim());  // 스티커 열의 수
+            int n = Integer.parseInt(br.readLine().trim());  
             String[] top = br.readLine().trim().split(" ");
             String[] bottom = br.readLine().trim().split(" ");
 
@@ -23,7 +23,6 @@ public class Main {
             int[] dp1 = new int[n];
             int[] dp2 = new int[n];
 
-            // 초기화
             dp1[0] = Integer.parseInt(top[0]);
             dp2[0] = Integer.parseInt(bottom[0]);
 
