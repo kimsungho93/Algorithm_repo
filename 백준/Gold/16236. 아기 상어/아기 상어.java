@@ -1,18 +1,45 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class Main {
     static int N;
     static int[][] grid;
-    static int[] dx = {-1, 0, 1, 0}; 
-    static int[] dy = {0, -1, 0, 1}; 
+    static int[] dx = {-1, 0, 1, 0};
+    static int[] dy = {0, -1, 0, 1};
 
-    public static int moveAndEat(Shark shark) {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        grid = new int[N][N];
+        Shark shark = null;
+
+        for (int i = 0; i < N; i++) {
+            String[] line = br.readLine().split(" ");
+            for (int j = 0; j < N; j++) {
+                grid[i][j] = Integer.parseInt(line[j]);
+                if (grid[i][j] == 9) {
+                    shark = new Shark(i, j);
+                    grid[i][j] = 0;
+                }
+            }
+        }
+
+        int totalTime = 0;
+        while (true) {
+            int time = moveAndEat(shark);
+            if (time == -1) break;
+            totalTime += time;
+        }
+
+        System.out.println(totalTime);
+    }
+
+    private static int moveAndEat(Shark shark) {
         boolean[][] visited = new boolean[N][N];
-        Queue<int[]> queue = new LinkedList<>();
-        Queue<int[]> eatable = new LinkedList<>();
+        Queue<int[]> queue = new ArrayDeque<>();
+        Queue<int[]> eatable = new ArrayDeque<>();
         queue.add(new int[]{shark.x, shark.y, 0});
         visited[shark.x][shark.y] = true;
         int minDist = Integer.MAX_VALUE;
@@ -54,33 +81,6 @@ public class Main {
         shark.x = eatX;
         shark.y = eatY;
         return eatDist;
-    }
-
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        N = Integer.parseInt(br.readLine());
-        grid = new int[N][N];
-        Shark shark = null;
-
-        for (int i = 0; i < N; i++) {
-            String[] line = br.readLine().split(" ");
-            for (int j = 0; j < N; j++) {
-                grid[i][j] = Integer.parseInt(line[j]);
-                if (grid[i][j] == 9) {
-                    shark = new Shark(i, j);
-                    grid[i][j] = 0; 
-                }
-            }
-        }
-
-        int totalTime = 0;
-        while (true) {
-            int time = moveAndEat(shark);
-            if (time == -1) break;
-            totalTime += time;
-        }
-
-        System.out.println(totalTime);
     }
 }
 
